@@ -1,0 +1,44 @@
+import { useState } from "react";
+
+import Button from "./components/library/Button";
+import Input from "./components/library/Input";
+import Card from "./components/library/Card";
+import Modal from "./components/library/Modal";
+
+import "./components/library/library.css";
+
+function App() {
+  const [name, setName] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div>
+      <h1>Reusable Component Library</h1>
+
+      <Card title="User Profile">
+        <Input
+          label="Name"
+          placeholder="Enter your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
+        <Button onClick={() => setIsOpen(true)}>
+          Open Modal
+        </Button>
+
+        <Button variant="secondary">
+          Cancel
+        </Button>
+      </Card>
+
+      <Modal
+        isOpen={isOpen}
+        title="Welcome"
+        onClose={() => setIsOpen(false)}
+      >
+        <p>Hello, {name || "User"}!</p>
+      </Modal>
+    </div>
+  );
+}
