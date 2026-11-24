@@ -1,0 +1,22 @@
+import { useState } from "react";
+import "./App.css";
+
+interface Post {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
+
+interface PostCardProps {
+  post: Post;
+}
+
+function PostCard({ post }: PostCardProps) {
+  return (
+    <div className="card">
+      <h3>{post.title}</h3>
+      <p>{post.body}</p>
+    </div>
+  );
+}
