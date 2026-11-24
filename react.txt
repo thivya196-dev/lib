@@ -1,0 +1,103 @@
+import { useState } from "react";
+import "./App.css";
+
+function App() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: ""
+  });
+
+  const [submitted, setSubmitted] = useState(false);
+
+  const errors = {
+    name: form.name.trim() ? "" : "Name is required",
+    email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)
+      ? ""
+      : "Enter a valid email address",
+    password: form.password.length >= 6
+      ? ""
+      : "Password must be at least 6 characters"
+  };
+
+  const isValid = Object.values(errors).every(
+    error => error === ""
+  );
+
+  function handleChange(e) {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (isValid) {
+      setSubmitted(true);
+    }
+  }
+
+  if (submitted) {
+    return (
+      <div className="container">
+        <h1>?? Success!</h1>
+        <p>Your form has been submitted successfully.</p>
+        <button onClick={() => {
+          setForm({ name: "", email: "", password: "" });
+          setSubmitted(false);
+        }}>
+          Submit Another Response
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container">
+      <h1>Registration Form</h1>
+
+      <form onSubmit={handleSubmit}>
+        <label>Name</label>
+        <input
+          name="name"
+          value={form.name}
+          onChange={handleChange}
+          placeholder="Enter your name"
+        />
+        {form.name && errors.name && (
+          <p className="error">{errors.name}</p>
+        )}
+
+        <label>Email</label>
+        <input
+          name="email"
+          value={form.email}
+          onChange={handleChange}
+          placeholder="Enter your email"
+        />
+        {form.email && errors.email && (
+          <p className="error">{errors.email}</p>
+        )}
+
+        <label>Password</label>
+        <input
+          type="password"
+          name="password"
+          value={form.password}
+          onChange={handleChange}
+          placeholder="Enter password"
+        />
+        {form.password && errors.password && (
+          <p className="error">{errors.password}</p>
+        )}
+
+        <button type="submit" disabled={!isValid}>
+          Submit
+        </button>
+      </form>
+    </div>
+  );
+}
+
+export default App;
